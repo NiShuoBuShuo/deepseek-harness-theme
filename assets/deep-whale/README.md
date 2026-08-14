@@ -8,7 +8,7 @@
 | 02 | `02-background-night.webp` | 深色模式全局背景 |
 | 03 | `03-hero-girl-whale.webp` | ConversationRoot `hero` 阶段左侧主角色 |
 | 04 | `04-sidebar-habitat.webp` | 展开侧栏底部海底场景 |
-| 05 | `05-active-companion.webp` | ConversationRoot `active` 阶段右缘陪伴角色 |
+| 05 | `05-active-companion.webp` | 保留的右缘角色备选素材；当前不叠加显示，避免与用户指定的 14 号右侧立绘重复 |
 | 06 | `06-top-current.webp` | 中央栏顶部水纹装饰 |
 | 07 | `07-hero-seafloor.webp` | Hero 底部海草层 |
 | 08 | `08-composer-seafloor.webp` | Active Composer 底部海草层 |

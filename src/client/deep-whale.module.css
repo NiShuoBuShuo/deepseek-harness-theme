@@ -106,7 +106,7 @@ body[data-dsh-deep-whale] [data-skin-chrome='top-current'] small {
 /* Real three-column shell. */
 body[data-dsh-deep-whale] :is([data-pane='sidebar'], [class*='sidebarCol']) > div {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: linear-gradient(180deg, #f9fdffe8, #e6f5ffcf 60%, #d9edffd9) !important;
   border-right: 1px solid var(--deep-whale-line);
   box-shadow: 10px 0 32px #315f9b1a;
@@ -129,10 +129,10 @@ body[data-dsh-deep-whale] [data-deep-whale-logo] {
 
 body[data-dsh-deep-whale] [data-skin-chrome='brand-whale'] {
   position: absolute !important;
-  left: 6px;
-  top: 3px;
-  width: 42px;
-  height: 42px;
+  left: 10px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
   pointer-events: none;
 }
 
@@ -155,7 +155,7 @@ body[data-dsh-deep-whale] [data-deep-whale-new-session] {
 }
 
 body[data-dsh-deep-whale] [data-deep-whale-new-session]::before,
-body[data-dsh-deep-whale] [data-deep-whale-settings] > *::before,
+body[data-dsh-deep-whale] [data-deep-whale-settings-trigger]::before,
 body[data-dsh-deep-whale] [data-deep-whale-workspace-active]::before,
 body[data-dsh-deep-whale] [data-deep-whale-session][aria-selected='true']::before {
   content: '';
@@ -168,23 +168,62 @@ body[data-dsh-deep-whale] [data-deep-whale-session][aria-selected='true']::befor
 }
 
 body[data-dsh-deep-whale] [data-deep-whale-new-session] > *,
-body[data-dsh-deep-whale] [data-deep-whale-settings] > * > *,
+body[data-dsh-deep-whale] [data-deep-whale-settings-trigger] > *,
 body[data-dsh-deep-whale] [data-deep-whale-workspace-active] > *,
 body[data-dsh-deep-whale] [data-deep-whale-session][aria-selected='true'] > * {
   position: relative;
   z-index: 1;
 }
 
-body[data-dsh-deep-whale] [data-deep-whale-settings] > * {
+body[data-dsh-deep-whale] [data-deep-whale-settings-trigger] {
   position: relative;
+  width: 100%;
   min-height: 43px;
   overflow: hidden;
   background: linear-gradient(90deg, #f8fcffb8, #eef5ffc9) !important;
 }
 
-body[data-dsh-deep-whale] [data-deep-whale-settings] > *::before {
+body[data-dsh-deep-whale] [data-deep-whale-settings-trigger]::before {
   background-image: var(--dw-settings-frame);
   opacity: .52;
+}
+
+/* Settings is portaled inside the sidebar settings slot. It must remain a
+   full modal instead of inheriting the framed footer trigger's dimensions. */
+body[data-dsh-deep-whale] [data-deep-whale-settings] [role='dialog'] {
+  position: fixed;
+  inset: 50% auto auto 50%;
+  z-index: 80;
+  width: min(880px, calc(100vw - 48px));
+  max-width: min(880px, calc(100vw - 48px));
+  height: min(680px, calc(100vh - 48px));
+  max-height: calc(100vh - 48px);
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  isolation: isolate;
+  color: #17335f;
+  background: linear-gradient(145deg, #fbfeff 0%, #edf6ff 62%, #eeeaff 100%) !important;
+  border: 1px solid #83bde2a8 !important;
+  box-shadow: 0 28px 90px #143c7366, inset 0 1px #fff !important;
+  backdrop-filter: none;
+}
+
+/* The settings portal is mounted under the sidebar. Lift that entire stacking
+   context while it is open so conversation rows can never paint over it. */
+body[data-dsh-deep-whale]:has([data-deep-whale-settings] [role='dialog'])
+  :is([data-pane='sidebar'], [class*='sidebarCol']) {
+  z-index: 70;
+}
+
+body[data-dsh-deep-whale]:has([data-deep-whale-settings] [role='dialog'])
+  [data-deep-whale-settings] {
+  position: relative;
+  z-index: 80;
+}
+
+body[data-dsh-deep-whale]:has([data-deep-whale-settings] [role='dialog'])
+  [data-skin-chrome='top-current'] {
+  opacity: .12;
 }
 
 body[data-dsh-deep-whale] [data-deep-whale-workspace],
@@ -218,10 +257,12 @@ body[data-dsh-deep-whale] [data-deep-whale-session]:hover {
 body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'] {
   position: absolute;
   left: 0;
-  right: 0;
+  right: auto;
   bottom: 46px;
-  z-index: 1;
-  height: min(310px, 38vh);
+  z-index: 3;
+  width: var(--deep-whale-sidebar-width, 280px);
+  max-width: 100vw;
+  height: min(270px, 34vh);
   overflow: hidden;
   pointer-events: none;
   mask-image: linear-gradient(to bottom, transparent 0, #000 20%, #000 100%);
@@ -239,9 +280,14 @@ body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'] .dw-sidebar-scene
 
 body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'] .dw-status-whale {
   position: absolute;
-  left: -12px;
-  bottom: -18px;
-  width: min(205px, 82%);
+  left: -32px;
+  bottom: -12px;
+  width: min(178px, 70%);
+  max-height: 142px;
+  object-fit: cover;
+  object-position: 56% center;
+  border-radius: 44% 56% 20px 20px;
+  opacity: .82;
   filter: drop-shadow(0 10px 14px #4f68b63d);
 }
 
@@ -282,18 +328,20 @@ body[data-dsh-deep-whale] .dw-theme-status small {
 }
 
 body[data-dsh-deep-whale] [data-deep-whale-footer] {
+  position: relative;
+  z-index: 4;
   padding-top: 6px;
   background: linear-gradient(to top, #edf8fff3 62%, transparent);
 }
 
 /* Characters follow the real ConversationRoot hero/settling/active phases. */
 body[data-dsh-deep-whale] [data-skin-chrome='character-stage'] {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: 1;
   overflow: hidden;
   pointer-events: none;
-  transition: left .18s ease, right .18s ease;
+  contain: strict;
 }
 
 body[data-dsh-deep-whale] [data-phase] > * {
@@ -303,49 +351,54 @@ body[data-dsh-deep-whale] [data-phase] > * {
 
 body[data-dsh-deep-whale] [data-skin-chrome='character-stage'] img {
   position: absolute;
+  display: block;
+  width: auto;
+  max-width: none;
   user-select: none;
   mix-blend-mode: multiply;
-  filter: saturate(1.22) contrast(1.08);
-  transition: opacity .25s ease, transform .4s cubic-bezier(.2,.8,.2,1);
+  object-fit: contain;
+  object-position: center bottom;
+  filter: saturate(1.18) contrast(1.06) drop-shadow(0 22px 26px #596cc044);
+  transition:
+    left .52s cubic-bezier(.22,.78,.2,1),
+    right .52s cubic-bezier(.22,.78,.2,1),
+    bottom .52s cubic-bezier(.22,.78,.2,1),
+    height .52s cubic-bezier(.22,.78,.2,1),
+    opacity .3s ease,
+    filter .3s ease;
 }
 
 body[data-dsh-deep-whale] .dw-hero-girl-whale {
-  left: clamp(-92px, -5vw, -36px);
-  bottom: 180px;
-  width: clamp(245px, 25vw, 350px);
-  max-height: 68vh;
-  object-fit: contain;
-  opacity: 0;
-  transform: translate(-35px, 18px) scale(.96);
-  filter: brightness(.82) saturate(1.34) contrast(1.14) drop-shadow(0 22px 26px #596cc044);
+  left: calc(var(--deep-whale-sidebar-width, 0px) + clamp(-56px, -3vw, -18px));
+  bottom: clamp(-30px, -2vh, -10px);
+  height: clamp(540px, 82vh, 900px);
+  opacity: .96;
 }
 
 body[data-dsh-deep-whale] .dw-details-girl {
-  right: clamp(10px, 1.8vw, 30px);
-  bottom: 20px;
-  width: clamp(190px, 20vw, 300px);
-  max-height: 72vh;
-  object-fit: contain;
-  object-position: right bottom;
-  opacity: 0;
-  transform: translate(35px, 24px) scale(.97);
-  filter: brightness(.82) saturate(1.34) contrast(1.14) drop-shadow(0 22px 26px #596cc03c);
+  right: calc(var(--deep-whale-details-width, 0px) + clamp(-22px, -.8vw, -6px));
+  bottom: clamp(-24px, -1.5vh, -8px);
+  height: clamp(520px, 78vh, 860px);
+  opacity: .96;
 }
 
-body[data-dsh-deep-whale] .dw-active-companion {
-  right: -70px;
-  bottom: 180px;
-  width: clamp(150px, 16vw, 235px);
-  max-height: 48vh;
-  object-fit: contain;
-  opacity: 0;
-  transform: translateX(35px);
-  filter: saturate(1.16) contrast(1.05) drop-shadow(0 15px 20px #596cc03b);
+/* Starting a chat retreats both residents toward the viewport edges. They do
+   not disappear: the middle reading column stays clear while the theme keeps
+   its two visual anchors, matching the reference skin's active-state model. */
+body[data-dsh-deep-whale][data-deep-whale-phase='active'] .dw-hero-girl-whale,
+body[data-dsh-deep-whale][data-deep-whale-phase='settling'] .dw-hero-girl-whale {
+  left: calc(var(--deep-whale-sidebar-width, 0px) + clamp(-110px, -6vw, -56px));
+  bottom: clamp(-28px, -1.8vh, -8px);
+  height: clamp(400px, 58vh, 650px);
+  opacity: .84;
 }
 
-body[data-dsh-deep-whale][data-deep-whale-phase='hero'] :is(.dw-hero-girl-whale, .dw-details-girl) {
-  opacity: .98;
-  transform: none;
+body[data-dsh-deep-whale][data-deep-whale-phase='active'] .dw-details-girl,
+body[data-dsh-deep-whale][data-deep-whale-phase='settling'] .dw-details-girl {
+  right: calc(var(--deep-whale-details-width, 0px) + clamp(-78px, -4vw, -34px));
+  bottom: clamp(-26px, -1.6vh, -8px);
+  height: clamp(390px, 56vh, 630px);
+  opacity: .86;
 }
 
 body[data-dsh-deep-whale] [data-phase='hero'] :is([class*='heroShell'], [class*='HeroShell']) {
@@ -362,14 +415,8 @@ body[data-dsh-deep-whale] [data-phase='hero'] :is([class*='heroShell'], [class*=
   backdrop-filter: blur(9px);
 }
 
-body[data-dsh-deep-whale][data-deep-whale-phase='settling'] :is(.dw-hero-girl-whale, .dw-details-girl) {
-  opacity: .18;
-  transform: translateY(40px) scale(.92);
-}
-
-body[data-dsh-deep-whale][data-deep-whale-phase='active'][data-deep-whale-details='closed'] .dw-active-companion {
-  opacity: .2;
-  transform: none;
+body[data-dsh-deep-whale][data-deep-whale-sidebar-size='rail'] .dw-hero-girl-whale {
+  left: clamp(-104px, -6vw, -52px);
 }
 
 /* Assets 07/08 become phase-aware seafloor layers behind the real composer. */
@@ -427,17 +474,39 @@ body[data-dsh-deep-whale] :is([data-composer-card], [class*='composerCard']) but
 }
 
 body[data-dsh-deep-whale] [class*='userRow'] [class*='bubble'] {
-  background: #e8f4ffeb;
-  border: 1px solid #8bc7e78a;
-  box-shadow: 0 7px 20px #38699a20;
+  color: #17335f;
+  background: linear-gradient(145deg, #eaf5ffef, #e8eaffeb);
+  border: 1px solid #7fbce29a;
+  box-shadow: 0 7px 20px #38699a20, inset 0 1px #fff;
 }
 
 body[data-dsh-deep-whale] [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]) {
-  background: #fbfeffeb;
+  box-sizing: border-box;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: min(720px, 96%);
+  padding: 14px 18px;
+  color: #18355f;
+  background: #fbfefff0;
   border: 1px solid #9fd4ef83;
   border-radius: 18px 18px 18px 6px;
   box-shadow: 0 8px 24px #2b60931f;
   backdrop-filter: blur(15px);
+}
+
+body[data-dsh-deep-whale] :is([data-chat-flow-kind='assistant-step'], [data-chat-flow-kind='tool-call'])
+  :is([data-variant], [role='button']) {
+  color: #29486f;
+  background: #f4f9ffbf;
+  border-color: #92c2e36b;
+  border-radius: 12px;
+}
+
+body[data-dsh-deep-whale] :is([data-chat-flow-kind='assistant-step'], [data-chat-flow-kind='tool-call'])
+  [role='button']:is(:hover, :focus-visible) {
+  color: #1d3d70;
+  background: #eaf5ffe8;
+  border-color: #72aee0a6;
 }
 
 body[data-dsh-deep-whale] :is([data-testid='todo-panel'], [role='dialog'], [role='menu'], [data-radix-popper-content-wrapper] > *) {
@@ -532,14 +601,45 @@ body[data-dsh-deep-whale][data-ds-dark-theme] :is([data-composer-card], [class*=
   border-color: #78bde15c !important;
 }
 
+body[data-dsh-deep-whale][data-ds-dark-theme] [class*='userRow'] [class*='bubble'] {
+  color: #eef8ff;
+  background: linear-gradient(145deg, #244b7ff2, #293e78ee);
+  border-color: #7dc7e47d;
+  box-shadow: 0 8px 24px #020b1f4f, inset 0 1px #ffffff18;
+}
+
+body[data-dsh-deep-whale][data-ds-dark-theme]
+  :is([data-chat-flow-kind='assistant-step'], [data-chat-flow-kind='tool-call'])
+  :is([data-variant], [role='button']) {
+  color: #dceeff;
+  background: #0f2a55c7;
+  border-color: #75b9df52;
+}
+
+body[data-dsh-deep-whale][data-ds-dark-theme]
+  :is([data-chat-flow-kind='assistant-step'], [data-chat-flow-kind='tool-call'])
+  [role='button']:is(:hover, :focus-visible) {
+  color: #f3fbff;
+  background: #173866e8;
+  border-color: #83c9e879;
+}
+
 body[data-dsh-deep-whale][data-ds-dark-theme] [class*='detailsCol'] > :not([data-skin-owner]) {
   color: #e9f7ff;
   background: linear-gradient(145deg, #102a55e8, #0b1d40dc) !important;
   border-color: #78bde15c !important;
 }
 
+body[data-dsh-deep-whale][data-ds-dark-theme]
+  [data-deep-whale-settings] [role='dialog'] {
+  color: #edf8ff;
+  background: linear-gradient(145deg, #102a55 0%, #0c2147 60%, #111e46 100%) !important;
+  border-color: #77bddf73 !important;
+  box-shadow: 0 30px 96px #020817b8, inset 0 1px #ffffff12 !important;
+}
+
 body[data-dsh-deep-whale][data-ds-dark-theme] [data-deep-whale-new-session],
-body[data-dsh-deep-whale][data-ds-dark-theme] [data-deep-whale-settings] > * {
+body[data-dsh-deep-whale][data-ds-dark-theme] [data-deep-whale-settings-trigger] {
   color: #e9f7ff !important;
   background: linear-gradient(90deg, #17315be6, #10264bd9) !important;
 }
@@ -560,14 +660,15 @@ body[data-dsh-deep-whale][data-ds-dark-theme] [data-deep-whale-footer] {
 }
 
 @media (max-width: 1180px) {
-  body[data-dsh-deep-whale] .dw-details-girl { opacity: 0 !important; }
-  body[data-dsh-deep-whale] .dw-hero-girl-whale { width: clamp(225px, 28vw, 330px); opacity: .72; }
+  body[data-dsh-deep-whale] .dw-hero-girl-whale { height: clamp(390px, 60vh, 620px); opacity: .76; }
+  body[data-dsh-deep-whale] .dw-details-girl { height: clamp(370px, 57vh, 590px); opacity: .78; }
 }
 
 @media (max-width: 920px) {
   body[data-dsh-deep-whale] [data-skin-chrome='top-current'] small,
-  body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'],
-  body[data-dsh-deep-whale] [data-skin-chrome='character-stage'] { display: none; }
+  body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'] { display: none; }
+  body[data-dsh-deep-whale] .dw-hero-girl-whale { left: -96px; height: 48vh; opacity: .5; }
+  body[data-dsh-deep-whale] .dw-details-girl { right: -92px; height: 46vh; opacity: .52; }
   body[data-dsh-deep-whale] [data-skin-chrome='seafloor-stage'] { opacity: .45; }
 }
 

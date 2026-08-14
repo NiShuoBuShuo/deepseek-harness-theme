@@ -37,7 +37,6 @@ function decorateBody() {
   ensureChrome(document.body, 'character-stage', [
     imageMarkup('dw-hero-girl-whale', 'heroGirlWhale'),
     imageMarkup('dw-details-girl', 'detailsGirl'),
-    imageMarkup('dw-active-companion', 'activeCompanion'),
   ].join(''))
   ensureChrome(document.body, 'seafloor-stage', '<span class="dw-hero-seafloor"></span><span class="dw-composer-seafloor"></span>')
 }
@@ -46,9 +45,7 @@ function decorateConversation() {
   const center = document.querySelector("[class*='centerCol']")
   if (!center) return
   center.dataset.deepWhaleCenter = ''
-  const characterStage = document.querySelector("[data-skin-chrome='character-stage']")
   const seafloorStage = document.querySelector("[data-skin-chrome='seafloor-stage']")
-  if (characterStage?.parentElement !== center) center.append(characterStage)
   if (seafloorStage?.parentElement !== center) center.append(seafloorStage)
 }
 
@@ -64,7 +61,11 @@ function decorateSidebar() {
   const newSession = root.querySelector("button[class*='newSession']")
   if (newSession) newSession.dataset.deepWhaleNewSession = ''
   const settings = root.querySelector("[class*='settingsArea']")
-  if (settings) settings.dataset.deepWhaleSettings = ''
+  if (settings) {
+    settings.dataset.deepWhaleSettings = ''
+    const trigger = settings.querySelector(":scope > button, :scope > [role='button']")
+    if (trigger) trigger.dataset.deepWhaleSettingsTrigger = ''
+  }
   const footer = root.querySelector("[class*='footArea']")
   if (footer) footer.dataset.deepWhaleFooter = ''
   const habitat = ensureChrome(root, 'sidebar-habitat', [
@@ -223,7 +224,7 @@ export function apply(ctx) {
     delete body.dataset.deepWhalePhase
     for (const [property, value] of previous) body.style.setProperty(property, value)
     document.querySelectorAll(`[data-skin-owner="${OWNER}"]`).forEach(element => element.remove())
-    document.querySelectorAll('[data-deep-whale-center], [data-deep-whale-logo], [data-deep-whale-new-session], [data-deep-whale-settings], [data-deep-whale-footer], [data-deep-whale-empty], [data-deep-whale-workspace], [data-deep-whale-workspace-active], [data-deep-whale-session], [data-deep-whale-session-first], [data-deep-whale-session-last], [data-deep-whale-session-flat]').forEach((element) => {
+    document.querySelectorAll('[data-deep-whale-center], [data-deep-whale-logo], [data-deep-whale-new-session], [data-deep-whale-settings], [data-deep-whale-settings-trigger], [data-deep-whale-footer], [data-deep-whale-empty], [data-deep-whale-workspace], [data-deep-whale-workspace-active], [data-deep-whale-session], [data-deep-whale-session-first], [data-deep-whale-session-last], [data-deep-whale-session-flat]').forEach((element) => {
       for (const key of Object.keys(element.dataset).filter(key => key.startsWith('deepWhale'))) delete element.dataset[key]
     })
     if (meta?.isConnected && previousThemeColor !== undefined) meta.content = previousThemeColor
