@@ -34,7 +34,6 @@ function decorateBody() {
     document.body.prepend(chrome('deep-whale-ambience', '<i></i><i></i><i></i><i></i><i></i><i></i>'))
   }
   ensureChrome(document.body, 'top-current', '<span></span><b>DEEP WHALE</b><small>HARNESS OCEAN INTERFACE</small>')
-  ensureChrome(document.body, 'right-border-habitat', imageMarkup('dw-right-border-scene', 'sidebarHabitat'))
   ensureChrome(document.body, 'character-stage', [
     imageMarkup('dw-hero-girl-whale', 'heroGirlWhale'),
     imageMarkup('dw-details-girl', 'detailsGirl'),

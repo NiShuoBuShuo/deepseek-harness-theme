@@ -369,31 +369,6 @@ body[data-dsh-deep-whale] [data-deep-whale-footer] [data-deep-whale-settings] {
   z-index: 2;
 }
 
-/* Asset 04 follows the actual right boundary instead of leaking below the
-   conversation composer. Half of the square sits beyond the edge so its
-   coral/whale cluster reads as a border ornament, not a second content card. */
-body[data-dsh-deep-whale] [data-skin-chrome='right-border-habitat'] {
-  position: fixed;
-  right: calc(var(--deep-whale-details-width, 0px) + 10px);
-  bottom: 48px;
-  z-index: 1;
-  width: clamp(185px, 17vw, 235px);
-  aspect-ratio: 1;
-  translate: 0 0;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: .74;
-  transition: right .18s ease, opacity .25s ease;
-}
-
-body[data-dsh-deep-whale] [data-skin-chrome='right-border-habitat'] img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
-  filter: drop-shadow(0 16px 24px #466bb536);
-}
-
 /* Characters follow the real ConversationRoot hero/settling/active phases. */
 body[data-dsh-deep-whale] [data-skin-chrome='character-stage'] {
   position: fixed;
@@ -520,7 +495,7 @@ body[data-dsh-deep-whale] :is([data-composer-card], [class*='composerCard']) {
 
 body[data-dsh-deep-whale] [data-composer-seat] {
   z-index: 3;
-  background: linear-gradient(to top, rgba(255,255,255,.26), rgba(244,249,255,.09) 46%, rgba(255,255,255,.025) 72%, transparent 100%) !important;
+  background: transparent !important;
 }
 
 body[data-dsh-deep-whale] [data-composer-seat] :is([class*='stats'], [class*='dock']) {
@@ -591,9 +566,9 @@ body[data-dsh-deep-whale] [data-composer-card] button[aria-haspopup='dialog'] [c
 body[data-dsh-deep-whale] [class*='detailsCol'] {
   position: relative;
   border-left: 1px solid #9fc9e569;
-  background: linear-gradient(180deg, #f9fdffe0, #edf6ffcf) !important;
+  background: linear-gradient(180deg, rgba(249,253,255,.22), rgba(237,246,255,.16)) !important;
   box-shadow: -10px 0 32px #315f9b14;
-  backdrop-filter: blur(22px);
+  backdrop-filter: blur(24px) saturate(1.08);
 }
 
 body[data-dsh-deep-whale] [data-skin-chrome='details-corner'] {
@@ -611,6 +586,8 @@ body[data-dsh-deep-whale] [data-skin-chrome='details-corner'] {
 body[data-dsh-deep-whale] [class*='detailsCol'] > :not([data-skin-owner]) {
   position: relative;
   z-index: 2;
+  background: linear-gradient(145deg, rgba(251,254,255,.52), rgba(227,243,255,.46)) !important;
+  backdrop-filter: blur(18px) saturate(1.08);
 }
 
 /* Optional native desktop titlebar decoration. */
@@ -660,6 +637,12 @@ body[data-dsh-deep-whale][data-ds-dark-theme] [class*='detailsCol'] {
   box-shadow: inset -1px 0 rgba(171,221,255,.12), 10px 0 32px rgba(3,15,37,.18);
 }
 
+body[data-dsh-deep-whale][data-ds-dark-theme] [class*='detailsCol'] {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(100,166,226,.06), transparent 34%),
+    linear-gradient(180deg, rgba(20,55,98,.22), rgba(6,22,50,.18)) !important;
+}
+
 body[data-dsh-deep-whale][data-ds-dark-theme] :is([data-composer-card], [class*='composerCard'], [data-testid='todo-panel'], [role='dialog'], [role='menu'], [data-radix-popper-content-wrapper] > *, [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant])) {
   color: #e9f7ff;
   background: linear-gradient(145deg, #102a55ed, #0b1d40e5) !important;
@@ -691,8 +674,9 @@ body[data-dsh-deep-whale][data-ds-dark-theme]
 
 body[data-dsh-deep-whale][data-ds-dark-theme] [class*='detailsCol'] > :not([data-skin-owner]) {
   color: #e9f7ff;
-  background: linear-gradient(145deg, #102a55e8, #0b1d40dc) !important;
+  background: linear-gradient(145deg, rgba(16,42,85,.46), rgba(11,29,64,.4)) !important;
   border-color: #78bde15c !important;
+  backdrop-filter: blur(18px) saturate(1.08);
 }
 
 body[data-dsh-deep-whale][data-ds-dark-theme]
@@ -724,10 +708,6 @@ body[data-dsh-deep-whale][data-ds-dark-theme] [data-deep-whale-footer] {
   background: linear-gradient(to top, rgba(9,34,70,.3), rgba(7,20,43,.1) 62%, transparent);
 }
 
-body[data-dsh-deep-whale][data-ds-dark-theme] [data-composer-seat] {
-  background: linear-gradient(to top, rgba(14,39,78,.32), rgba(16,48,91,.11) 46%, rgba(255,255,255,.03) 72%, transparent 100%) !important;
-}
-
 @media (max-width: 1180px) {
   body[data-dsh-deep-whale] .dw-hero-girl-whale { height: clamp(390px, 60vh, 620px); opacity: .76; }
   body[data-dsh-deep-whale] .dw-details-girl { height: clamp(370px, 57vh, 590px); opacity: .78; }
@@ -736,7 +716,6 @@ body[data-dsh-deep-whale][data-ds-dark-theme] [data-composer-seat] {
 @media (max-width: 920px) {
   body[data-dsh-deep-whale] [data-skin-chrome='top-current'] small,
   body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'] { display: none; }
-  body[data-dsh-deep-whale] [data-skin-chrome='right-border-habitat'] { opacity: .28; }
   body[data-dsh-deep-whale] .dw-hero-girl-whale { left: -96px; height: 48vh; opacity: .5; }
   body[data-dsh-deep-whale] .dw-details-girl { right: -92px; height: 46vh; opacity: .52; }
   body[data-dsh-deep-whale] [data-skin-chrome='seafloor-stage'] { opacity: .45; }
