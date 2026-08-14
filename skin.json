@@ -10,6 +10,6 @@
   "bodyAttr": "data-dsh-deep-whale",
   "package": "@local/dsh-client-ui-skin-deep-whale",
   "wiring": { "id": "ui-skin-deep-whale", "bundleWired": false },
-  "preview": { "light": "preview/light.png" },
+  "preview": { "light": "preview/light.png", "dark": "preview/dark.png" },
   "order": 10
 }

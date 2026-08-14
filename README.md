@@ -1,6 +1,6 @@
 # Deep Whale · DeepSeek Harness skin
 
-一个不改动 Harness 信息架构的热插拔主题。它沿用 `dsh-deep-whale` 的客户端插件模式：`apply()` 只增加作用域属性、背景和装饰层，Cordis effect disposer 会在卸载时完整还原 DOM、标题、主题色与行内背景。
+一个不改动 Harness 信息架构的热插拔主题。它沿用 `dsh-deep-whale` 的客户端插件模式：独立静态资源、CSS 覆盖、DOM 标记与 Cordis effect disposer。卸载时会完整移除装饰层，并还原标题、主题色和行内样式。
 
 ## 安装
 
@@ -18,11 +18,12 @@ pnpm install
 pnpm check
 ```
 
-背景资产在 `assets/deep-whale-ocean.png`，构建时内嵌为 data URI，因此运行时不依赖外部 URL 或静态资源服务。
+15 张主题素材位于 `assets/deep-whale/`，构建时以内嵌 WebP data URI 写入 `lib/client.js`，因此运行时不依赖外部 URL 或静态资源服务。编号、挂载位置及用途见 `assets/deep-whale/README.md`。
 
 ## 设计边界
 
-- 不新增或伪造 Harness 业务数据。
-- 不修改会话、工作区、工具、模型或 composer 的结构与行为。
-- 左下角连接状态仅为主题装饰；真实 todo、dialog、资源计量和会话元素仍由 Harness 原组件提供。
-- 选择器兼容公开的 `data-*` 钩子，并对 CSS Modules 类名只使用局部包含匹配。
+- 保留 Harness 原生的 `sidebar | conversation | details` 三栏结构，不加入 Dashboard、Agents 或虚构系统数据。
+- New Session、工作区/会话树、ConversationRoot 三阶段、Composer、Todo、Details 仍是原组件，只做皮肤挂载。
+- 左下角 `theme online` 仅表示主题已加载；真实工具结果、上下文计量和会话状态仍由 Harness 原组件提供。
+- 角色层和海底装饰全部 `pointer-events: none`，不会遮挡交互；窄屏会自动收敛装饰。
+- 选择器优先使用公开的 `data-*` / ARIA 钩子，并对 CSS Modules 类名只使用局部包含匹配。
