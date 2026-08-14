@@ -118,13 +118,20 @@ body[data-dsh-deep-whale] [data-skin-chrome='top-current'] small {
 }
 
 /* Real three-column shell. */
-body[data-dsh-deep-whale] :is([data-pane='sidebar'], [class*='sidebarCol']) > div {
+body[data-dsh-deep-whale] [class*='sidebarCol'] {
+  background: transparent !important;
+}
+
+body[data-dsh-deep-whale] :is(
+  :is([data-pane='sidebar'], [class*='sidebarCol']) > div,
+  [class*='sidebarCol'] > [data-slot='sidebar'] > div
+) {
   position: relative;
   overflow: visible;
-  background: linear-gradient(180deg, rgba(249,253,255,.56), rgba(230,245,255,.4) 60%, rgba(217,237,255,.44)) !important;
+  background: linear-gradient(180deg, rgba(249,253,255,.5), rgba(230,245,255,.5) 60%, rgba(217,237,255,.5)) !important;
   border-right: 1px solid var(--deep-whale-line);
   box-shadow: 10px 0 32px #315f9b1a;
-  backdrop-filter: blur(26px) saturate(1.16);
+  backdrop-filter: blur(16px) saturate(1.12);
 }
 
 body[data-dsh-deep-whale] :is([data-pane='sidebar'], [class*='sidebarCol']) > div > :not([data-skin-chrome='sidebar-habitat']) {
@@ -642,7 +649,10 @@ body[data-dsh-deep-whale][data-ds-dark-theme]::before {
   opacity: .32;
 }
 
-body[data-dsh-deep-whale][data-ds-dark-theme] :is([data-pane='sidebar'], [class*='sidebarCol']) > div,
+body[data-dsh-deep-whale][data-ds-dark-theme] :is(
+  :is([data-pane='sidebar'], [class*='sidebarCol']) > div,
+  [class*='sidebarCol'] > [data-slot='sidebar'] > div
+),
 body[data-dsh-deep-whale][data-ds-dark-theme] [class*='detailsCol'] {
   color: #e9f7ff;
   background:
