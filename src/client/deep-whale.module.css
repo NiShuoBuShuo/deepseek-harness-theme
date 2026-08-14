@@ -380,7 +380,7 @@ body[data-dsh-deep-whale] [data-deep-whale-footer] [data-deep-whale-settings] {
 body[data-dsh-deep-whale] [data-skin-chrome='character-stage'] {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 10;
   overflow: hidden;
   pointer-events: none;
   contain: strict;
@@ -437,7 +437,7 @@ body[data-dsh-deep-whale][data-deep-whale-phase='settling'] .dw-hero-girl-whale 
 
 body[data-dsh-deep-whale][data-deep-whale-phase='active'] .dw-details-girl,
 body[data-dsh-deep-whale][data-deep-whale-phase='settling'] .dw-details-girl {
-  right: calc(var(--deep-whale-details-width, 0px) + clamp(-44px, -2vw, -20px));
+  right: calc(var(--deep-whale-details-width, 0px) + clamp(0px, .4vw, 10px));
   bottom: clamp(24px, 3.2vh, 42px);
   height: clamp(390px, 56vh, 630px);
   opacity: .86;
