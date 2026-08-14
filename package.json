@@ -1,0 +1,29 @@
+{
+  "name": "@local/dsh-client-ui-skin-deep-whale",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Hot-pluggable Deep Whale anime ocean skin for DeepSeek Harness Web UI",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./skin.json": "./skin.json",
+    "./package.json": "./package.json"
+  },
+  "files": ["lib", "assets", "preview", "cordis.patch.yml", "skin.json", "README.md", "LICENSE", "NOTICE"],
+  "scripts": {
+    "generate:asset": "node scripts/embed-assets.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/bundle.test.mjs",
+    "check": "pnpm build && pnpm test"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": { "inject": [], "platform": "web" }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "license": "CC-BY-NC-SA-4.0"
+}
