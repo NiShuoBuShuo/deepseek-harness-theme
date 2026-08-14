@@ -15,7 +15,7 @@ Deep Whale 保留 Harness 原生的侧栏、会话区、详情栏、设置和 Ag
 
 | 浅色模式 | 深色模式 |
 | --- | --- |
-| ![Deep Whale 浅色模式](preview/light.png) | ![Deep Whale 深色模式](preview/dark.png) |
+| ![Deep Whale 浅色模式](preview/light.jpg) | ![Deep Whale 深色模式](preview/dark.jpg) |
 
 ## 主要特性
 
