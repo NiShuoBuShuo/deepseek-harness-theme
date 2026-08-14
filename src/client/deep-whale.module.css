@@ -242,6 +242,14 @@ body[data-dsh-deep-whale]:has([data-deep-whale-settings] [role='dialog'])
   z-index: 80;
 }
 
+/* backdrop-filter establishes a containing block for fixed descendants. The
+   native settings portal lives inside the sidebar, so suspend that containing
+   block while the dialog is open and let its fixed overlay use the viewport. */
+body[data-dsh-deep-whale]:has([data-deep-whale-settings] [role='dialog'])
+  [class*='sidebarCol'] > [data-slot='sidebar'] > div {
+  backdrop-filter: none !important;
+}
+
 body[data-dsh-deep-whale]:has([data-deep-whale-settings] [role='dialog'])
   [data-skin-chrome='top-current'] {
   opacity: .12;
