@@ -7,12 +7,12 @@
 | 01 | `01-background-day.webp` | 浅色模式全局背景 |
 | 02 | `02-background-night.webp` | 深色模式全局背景 |
 | 03 | `03-hero-girl-whale.webp` | ConversationRoot `hero` 阶段左侧主角色 |
-| 04 | `04-sidebar-habitat.webp` | 展开侧栏底部海底场景 |
+| 04 | `04-sidebar-habitat.webp` | 主工作区右侧边界下部的鲸鱼与海底边框装饰 |
 | 05 | `05-active-companion.webp` | 保留的右缘角色备选素材；当前不叠加显示，避免与用户指定的 14 号右侧立绘重复 |
 | 06 | `06-top-current.webp` | 中央栏顶部水纹装饰 |
 | 07 | `07-hero-seafloor.webp` | Hero 底部海草层 |
 | 08 | `08-composer-seafloor.webp` | Active Composer 底部海草层 |
-| 09 | `09-details-corner.webp` | Details 面板右上角装饰 |
+| 09 | `09-details-corner.webp` | Details 右上角装饰，并复用于左下鲸鱼旁的水晶框层 |
 | 10 | `10-new-session-frame.webp` | 原生 New Session 按钮边框 |
 | 11 | `11-settings-frame.webp` | 原生 Settings 区边框 |
 | 12 | `12-workspace-ribbon.webp` | 原生 Workspace / Session 选中态 |

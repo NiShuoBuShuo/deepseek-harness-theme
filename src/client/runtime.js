@@ -34,6 +34,7 @@ function decorateBody() {
     document.body.prepend(chrome('deep-whale-ambience', '<i></i><i></i><i></i><i></i><i></i><i></i>'))
   }
   ensureChrome(document.body, 'top-current', '<span></span><b>DEEP WHALE</b><small>HARNESS OCEAN INTERFACE</small>')
+  ensureChrome(document.body, 'right-border-habitat', imageMarkup('dw-right-border-scene', 'sidebarHabitat'))
   ensureChrome(document.body, 'character-stage', [
     imageMarkup('dw-hero-girl-whale', 'heroGirlWhale'),
     imageMarkup('dw-details-girl', 'detailsGirl'),
@@ -68,10 +69,10 @@ function decorateSidebar() {
   }
   const footer = root.querySelector("[class*='footArea']")
   if (footer) footer.dataset.deepWhaleFooter = ''
-  const habitat = ensureChrome(root, 'sidebar-habitat', [
-    imageMarkup('dw-sidebar-scene', 'sidebarHabitat'),
+  const habitat = ensureChrome(footer || root, 'sidebar-habitat', [
+    imageMarkup('dw-sidebar-corner-frame', 'detailsCorner'),
     imageMarkup('dw-status-whale', 'statusWhale'),
-    '<span class="dw-theme-status"><i></i><b>DEEP WHALE</b><small>theme online</small></span>',
+    '<span class="dw-theme-status"><i></i><b>DEEP WHALE</b><small>ONLINE</small></span>',
   ].join(''))
   habitat.hidden = sidebar.getBoundingClientRect().width <= 120
 }

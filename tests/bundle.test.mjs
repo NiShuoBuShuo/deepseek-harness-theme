@@ -19,6 +19,8 @@ test('bundle contains scoped CSS, embedded artwork and disposer', async () => {
   assert.match(bundle, /data-composer-card/)
   assert.match(bundle, /detailsCol/)
   assert.match(bundle, /data-deep-whale-settings-trigger/)
+  assert.match(bundle, /right-border-habitat/)
+  assert.match(bundle, /dw-sidebar-corner-frame/)
   assert.match(bundle, /contain: strict/)
   assert.doesNotMatch(bundle, /dw-active-companion/)
   assert.doesNotMatch(bundle, /https?:\/\//)
