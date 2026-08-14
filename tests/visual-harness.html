@@ -69,7 +69,14 @@
   </div>
   <div class="phaseControls"><button data-phase-button="hero">Hero</button><button data-phase-button="active">Active</button><button data-unload-theme>Unload theme</button></div>
   <script type="module">
-    import { apply } from '/lib/client.js'
+    let clientModule
+    window.__ModuleLoader__ = {
+      load(definition) {
+        clientModule = definition.factory(() => undefined)
+      },
+    }
+    await import('/lib/client.js')
+    const { apply } = clientModule
     const query = new URLSearchParams(location.search)
     const initialPhase = query.get('phase') === 'active' ? 'active' : 'hero'
     if (query.get('dark') === '1') document.body.setAttribute('data-ds-dark-theme', '')

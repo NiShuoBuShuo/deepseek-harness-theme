@@ -5,11 +5,14 @@
 ## 安装
 
 ```sh
-cd <deepseek-harness>
-dsh plugin --profile web add /absolute/path/to/my-item
+npx -y @deepseek-ai/dsh plugin --profile web add /absolute/path/to/my-item
 ```
 
-重新启动 `dsh web` 后生效。卸载插件即可恢复默认界面。
+通过 `npx -y @deepseek-ai/dsh web` 启动，或重启已运行的 Web 服务后生效。卸载命令：
+
+```sh
+npx -y @deepseek-ai/dsh plugin --profile web remove @local/dsh-client-ui-skin-deep-whale
+```
 
 ## 开发验证
 
