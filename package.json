@@ -1,7 +1,18 @@
 {
-  "name": "@local/dsh-client-ui-skin-deep-whale",
+  "name": "@nishuobushuo/dsh-client-ui-skin-deep-whale",
   "version": "0.1.0",
   "private": true,
+  "author": "NiShuoBuShuo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiShuoBuShuo/deepseek-harness-theme.git"
+  },
+  "homepage": "https://github.com/NiShuoBuShuo/deepseek-harness-theme#readme",
+  "bugs": {
+    "url": "https://github.com/NiShuoBuShuo/deepseek-harness-theme/issues"
+  },
+  "keywords": ["deepseek", "deepseek-harness", "dsh", "dsh-plugin", "theme", "anime", "whale"],
+  "packageManager": "pnpm@10.33.0",
   "type": "module",
   "description": "Hot-pluggable Deep Whale anime ocean skin for DeepSeek Harness Web UI",
   "main": "lib/index.js",
@@ -11,9 +22,8 @@
     "./skin.json": "./skin.json",
     "./package.json": "./package.json"
   },
-  "files": ["lib", "assets", "preview", "cordis.patch.yml", "skin.json", "README.md", "LICENSE", "NOTICE"],
+  "files": ["lib", "assets", "preview", "scripts", "src", "tests", "cordis.patch.yml", "skin.json", "README.md", "LICENSE", "NOTICE"],
   "scripts": {
-    "generate:asset": "node scripts/embed-assets.mjs",
     "build": "node scripts/build.mjs",
     "test": "node --test tests/bundle.test.mjs",
     "check": "pnpm build && pnpm test"

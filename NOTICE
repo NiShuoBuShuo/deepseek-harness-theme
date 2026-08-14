@@ -1,3 +1,40 @@
-The original background artwork in assets/deep-whale-ocean.png was generated for this theme with OpenAI image generation. It does not reuse character art from dsh-deep-whale.
+Deep Whale · DeepSeek Harness Theme
+===================================
 
-Implementation approach was informed by Small-tailqwq/dsh-deep-whale, which is distributed under CC BY-NC-SA 4.0. No source artwork or CSS from that project is redistributed here.
+Copyright (c) 2026 NiShuoBuShuo and contributors.
+
+Artwork
+-------
+
+The 15 source images under assets/deep-whale/ were supplied and selected for
+this theme. They were generated for this project with OpenAI image generation
+under the repository owner's direction, then converted and optimized as WebP
+assets. They are not copied from Small-tailqwq/dsh-deep-whale.
+
+Implementation references
+-------------------------
+
+The client-plugin packaging approach, Cordis effect lifecycle, embedded static
+asset organization and reversible CSS/DOM injection strategy were informed by:
+
+  Small-tailqwq/dsh-deep-whale
+  https://github.com/Small-tailqwq/dsh-deep-whale
+  License: CC BY-NC-SA 4.0
+
+The host application is:
+
+  deepseek-ai/deepseek-harness
+  https://github.com/deepseek-ai/deepseek-harness
+  License: MIT
+
+No source artwork or CSS from dsh-deep-whale is redistributed by this
+repository. DeepSeek, DeepSeek Harness and related marks belong to their
+respective rights holders. This is an unofficial community theme and does not
+imply endorsement by DeepSeek AI or the referenced projects.
+
+License
+-------
+
+Unless a file states otherwise, this theme is distributed under Creative
+Commons Attribution-NonCommercial-ShareAlike 4.0 International
+(CC BY-NC-SA 4.0). See LICENSE.
