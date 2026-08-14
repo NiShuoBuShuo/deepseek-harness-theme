@@ -17,7 +17,7 @@
 | 11 | `11-settings-frame.webp` | 原生 Settings 区边框 |
 | 12 | `12-workspace-ribbon.webp` | 原生 Workspace / Session 选中态 |
 | 13 | `13-brand-whale.webp` | 侧栏 Logo 行的 Deep Whale 徽记 |
-| 14 | `14-details-girl.webp` | Hero 阶段右侧立绘（用户偏好图） |
+| 14 | `14-details-girl.webp` | Hero 阶段右下角抱平板少女（用户指定的 2026-08-14 21:33 图片） |
 | 15 | `15-status-whale.webp` | 左下角主题状态区前景鲸鱼（用户偏好图） |
 
 所有角色、鲸鱼和海底装饰层均不接收鼠标事件。侧栏收缩为 rail 或视口小于 920px 时，大型装饰会自动隐藏。
