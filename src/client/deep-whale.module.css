@@ -460,10 +460,11 @@ body[data-dsh-deep-whale] [data-skin-chrome='seafloor-stage'] {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 0;
   height: 260px;
   overflow: hidden;
   pointer-events: none;
+  transition: height .3s ease;
 }
 
 body[data-dsh-deep-whale] [data-skin-chrome='seafloor-stage'] span {
@@ -477,9 +478,24 @@ body[data-dsh-deep-whale] [data-skin-chrome='seafloor-stage'] span {
 }
 
 body[data-dsh-deep-whale] .dw-hero-seafloor { background-image: var(--dw-hero-seafloor); }
-body[data-dsh-deep-whale] .dw-composer-seafloor { background-image: var(--dw-composer-seafloor); }
+body[data-dsh-deep-whale] .dw-composer-seafloor {
+  background-image: var(--dw-composer-seafloor);
+  -webkit-mask-image: linear-gradient(to right, #000 0 66%, transparent 82%);
+  mask-image: linear-gradient(to right, #000 0 66%, transparent 82%);
+}
 body[data-dsh-deep-whale][data-deep-whale-phase='hero'] .dw-hero-seafloor { opacity: .72; }
 body[data-dsh-deep-whale][data-deep-whale-phase='active'] .dw-composer-seafloor { opacity: .46; }
+
+/* Once the composer is present, keep its seafloor below the card instead of
+   letting the original 1024px artwork rise into the conversation. The lower
+   stacking level also prevents the coral edge from painting over either
+   character's feet. */
+body[data-dsh-deep-whale]:is(
+  [data-deep-whale-phase='active'],
+  [data-deep-whale-phase='settling']
+) [data-skin-chrome='seafloor-stage'] {
+  height: clamp(88px, 14vh, 132px);
+}
 
 /* Composer, real stats dock, messages, todo and overlays. */
 body[data-dsh-deep-whale] :is([data-composer-card], [class*='composerCard']) {
