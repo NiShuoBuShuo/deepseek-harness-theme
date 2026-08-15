@@ -11,8 +11,6 @@ Deep Whale 保留 Harness 原生的侧栏、会话区、详情栏、设置和 Ag
 
 ## 效果预览
 
-以下截图来自真实的 `npx -y @deepseek-ai/dsh web` 会话页面，不是概念效果图。
-
 | 浅色模式 | 深色模式 |
 | --- | --- |
 | ![Deep Whale 浅色模式](preview/light.jpg) | ![Deep Whale 深色模式](preview/dark.jpg) |
