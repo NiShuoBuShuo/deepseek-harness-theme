@@ -81,6 +81,18 @@ npx -y @deepseek-ai/dsh plugin --profile web remove @nishuobushuo/dsh-client-ui-
 - 设置弹窗位于窗口中央；关闭后侧栏恢复半透明磨砂。
 - 页面 `<body>` 上存在 `data-dsh-deep-whale` 属性。
 
+## 本地目检（无需安装 DeepSeek Harness）
+
+仓库内置一个零依赖静态服务器，可在不安装完整 DSH 的情况下，用模拟 Harness 的三栏结构预览主题，切换 Hero/Active 阶段、深色模式与主题卸载：
+
+```sh
+npm run preview
+```
+
+打开 <http://127.0.0.1:4173>（默认端口可用 `PORT` 覆盖）。预览页支持查询参数：`?phase=hero|active`、`?dark=1`、`?preview=1`。
+
+> 该目检页 `tests/visual-harness.html` 复刻的是 Harness 的稳定 `data-*` / ARIA 结构与三栏布局，用于核对皮肤的层级、避让与明暗样式，不代表完整 Harness 运行时。
+
 ## 开发与构建
 
 仓库提交了可直接安装的 `lib/` 构建产物。重新构建只需要 Node.js 和 pnpm：
@@ -101,8 +113,9 @@ npm pack --dry-run
 ├── preview/                 # 真实 Harness 浅色/深色预览
 ├── src/client/              # DOM 标记、生命周期和主题 CSS
 ├── scripts/build.mjs        # 素材嵌入与 client bundle 生成
+├── scripts/serve.mjs        # 零依赖静态服务器，用于本地目检
 ├── lib/                     # DSH 可直接加载的构建产物
-├── tests/                   # ModuleLoader、清理器和包结构检查
+├── tests/                   # 包结构检查与目检 harness 页
 ├── cordis.patch.yml         # DSH bundle 注册
 ├── skin.json                # 主题元数据
 └── NOTICE                   # 素材与参考项目说明

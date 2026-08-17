@@ -10,8 +10,13 @@
     html, body { width: 100%; height: 100%; margin: 0; font: 14px/1.45 Inter, ui-sans-serif, system-ui; color: #1d3155; }
     button { font: inherit; color: inherit; }
     .Desktop_titlebar { height: 34px; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid #b9cde055; background: #ffffffa8; }
-    .AppFrame_frame { height: calc(100% - 34px); display: grid; grid-template-columns: 260px minmax(0, 1fr) 300px; }
-    .AppFrame_frame:has([data-phase='hero']) { grid-template-columns: 260px minmax(0, 1fr) 0; }
+    .AppFrame_frame { height: calc(100% - 34px); display: grid; grid-template-columns: 260px minmax(0, 1fr) 0px; }
+    .AppFrame_frame[data-details='open'] { grid-template-columns: 260px minmax(0, 1fr) 300px; }
+    .AppFrame_frame[data-sidebar='rail'] { grid-template-columns: 56px minmax(0, 1fr) 0px; }
+    .AppFrame_frame[data-sidebar='rail'][data-details='open'] { grid-template-columns: 56px minmax(0, 1fr) 300px; }
+    .AppFrame_frame[data-sidebar='rail'] .SidebarRoot_newSession,
+    .AppFrame_frame[data-sidebar='rail'] .SidebarRoot_regionArea,
+    .AppFrame_frame[data-sidebar='rail'] .SidebarRoot_brand { display: none; }
     .AppFrame_sidebarCol, .AppFrame_centerCol, .AppFrame_detailsCol { min-width: 0; overflow: hidden; }
     .SidebarRoot_root { height: 100%; display: flex; flex-direction: column; padding: 12px; gap: 9px; }
     .SidebarRoot_logoRow { display: flex; align-items: center; gap: 8px; }
@@ -43,6 +48,9 @@
     .phaseControls { position: fixed; z-index: 20; right: 316px; top: 39px; display: flex; gap: 5px; }
     .phaseControls button { padding: 5px 9px; border: 1px solid #9ebbe0; border-radius: 9px; background: #f7fbff; }
     body.preview .phaseControls { display: none; }
+    .chatMsg { max-width: 720px; margin-block: 10px; padding: 12px 16px; border: 1px solid #c8d8e8; border-radius: 14px; }
+    .chatMsg.user { margin-left: auto; background: #eef4ff; }
+    .chatMsg.assistant { background: #ffffffd9; }
   </style>
 </head>
 <body>
@@ -61,13 +69,14 @@
         <header class="Conversation_header">Deep Whale Agent Session</header>
         <div class="Conversation_scrollBody" data-conversation-scroll>
           <div class="HeroShell"><div><h1>Where should we dive today?</h1><p>Build, inspect and steer an agent in the original Harness workspace.</p></div></div>
+          <div class="chatMessages" hidden></div>
           <div data-composer-seat><div data-composer-card><textarea placeholder="Ask DeepSeek Harness…"></textarea><div class="composerActions"><button>Tools</button><button>Model</button><button class="primarySend">Send</button></div></div><div class="composer_statsDock"><span>Context 18%</span><span>Tools 4</span><span>Messages 12</span></div></div>
         </div>
       </section>
     </main>
     <aside class="AppFrame_detailsCol"><div class="DetailsPanel_root"><h2>Tool details</h2><pre>read_file · input / output · Original panel content</pre></div></aside>
   </div>
-  <div class="phaseControls"><button data-phase-button="hero">Hero</button><button data-phase-button="active">Active</button><button data-unload-theme>Unload theme</button></div>
+  <div class="phaseControls"><button data-phase-button="hero">Hero</button><button data-phase-button="active">Active</button><button data-toggle-sidebar>Sidebar</button><button data-toggle-details>Details</button><button data-unload-theme>Unload theme</button></div>
   <script type="module">
     let clientModule
     window.__ModuleLoader__ = {
@@ -78,19 +87,61 @@
     await import('/lib/client.js')
     const { apply } = clientModule
     const query = new URLSearchParams(location.search)
-    const initialPhase = query.get('phase') === 'active' ? 'active' : 'hero'
+    const state = {
+      phase: query.get('phase') === 'active' ? 'active' : 'hero',
+      sidebar: query.get('sidebar') === 'rail' ? 'rail' : 'wide',
+      details: query.get('details') === 'closed' ? 'closed' : 'open',
+    }
     if (query.get('dark') === '1') document.body.setAttribute('data-ds-dark-theme', '')
     if (query.get('preview') === '1') document.body.classList.add('preview')
-    document.querySelector('[data-phase]').dataset.phase = initialPhase
-    document.querySelector('.HeroShell').style.display = initialPhase === 'hero' ? '' : 'none'
+
+    const frame = document.querySelector('.AppFrame_frame')
+    const center = document.querySelector('.AppFrame_centerCol')
+    const sidebar = document.querySelector('[class*="sidebarCol"]')
+    const detailsCol = document.querySelector('[class*="detailsCol"]')
+    const hero = document.querySelector('.HeroShell')
+    const messages = document.querySelector('.chatMessages')
     let dispose
     apply({ effect(run) { dispose = run() } })
+
+    // Mirror the theme's syncGeometry phase/width bookkeeping onto <body> so the
+    // state-specific CSS applies deterministically (independent of rAF timing).
+    function mirrorState() {
+      const body = document.body
+      frame.dataset.sidebar = state.sidebar
+      frame.dataset.details = state.details
+      const sidebarWidth = Math.round(sidebar.getBoundingClientRect().width)
+      const detailsWidth = Math.round(detailsCol.getBoundingClientRect().width)
+      body.style.setProperty('--deep-whale-sidebar-width', `${sidebarWidth}px`)
+      body.style.setProperty('--deep-whale-details-width', `${detailsWidth}px`)
+      body.dataset.deepWhaleSidebarSize = sidebarWidth <= 120 ? 'rail' : sidebarWidth <= 220 ? 'narrow' : 'wide'
+      body.dataset.deepWhaleDetails = detailsWidth <= 16 ? 'closed' : 'open'
+      body.dataset.deepWhalePhase = state.phase
+      document.querySelector('[data-phase]').dataset.phase = state.phase
+      hero.style.display = state.phase === 'hero' ? '' : 'none'
+      const active = state.phase !== 'hero'
+      messages.hidden = !active
+      if (active && !messages.children.length) {
+        messages.innerHTML =
+          '<div class="chatMsg user">Where do the whales migrate in winter?</div>' +
+          '<div class="chatMsg assistant">During winter months they travel toward warmer equatorial waters, following the krill blooms. I can look up the specific routes for each species.</div>' +
+          '<div class="chatMsg user">Which species should I research first?</div>'
+      }
+    }
+
+    window.setHarnessState = (next) => { Object.assign(state, next); mirrorState() }
     window.disposeDeepWhale = () => dispose?.()
+    mirrorState()
     document.querySelector('[data-unload-theme]').addEventListener('click', () => window.disposeDeepWhale())
     document.querySelectorAll('[data-phase-button]').forEach(button => button.addEventListener('click', () => {
-      document.querySelector('[data-phase]').dataset.phase = button.dataset.phaseButton
-      document.querySelector('.HeroShell').style.display = button.dataset.phaseButton === 'hero' ? '' : 'none'
+      window.setHarnessState({ phase: button.dataset.phaseButton, details: button.dataset.phaseButton === 'hero' ? 'closed' : 'open' })
     }))
+    document.querySelector('[data-toggle-sidebar]').addEventListener('click', () => {
+      window.setHarnessState({ sidebar: state.sidebar === 'rail' ? 'wide' : 'rail' })
+    })
+    document.querySelector('[data-toggle-details]').addEventListener('click', () => {
+      window.setHarnessState({ details: state.details === 'open' ? 'closed' : 'open' })
+    })
   </script>
 </body>
 </html>

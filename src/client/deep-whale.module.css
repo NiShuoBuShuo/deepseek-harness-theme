@@ -148,6 +148,18 @@ body[data-dsh-deep-whale] [data-deep-whale-logo] {
   padding-left: 43px;
 }
 
+/* In the collapsed rail the decorative whale must yield: the native toggle
+   (which also expands the sidebar) is pushed 43px past the 56px edge and
+   clipped, and the non-interactive decorative whale is what users click.
+   Reset the gutter and hide the ornament so the real whale stays tappable. */
+body[data-dsh-deep-whale][data-deep-whale-sidebar-size='rail'] [data-deep-whale-logo] {
+  padding-left: 0;
+}
+
+body[data-dsh-deep-whale][data-deep-whale-sidebar-size='rail'] [data-skin-chrome='brand-whale'] {
+  display: none;
+}
+
 body[data-dsh-deep-whale] [data-skin-chrome='brand-whale'] {
   position: absolute !important;
   left: 10px;
@@ -288,11 +300,11 @@ body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'] {
   position: absolute;
   left: 0;
   right: auto;
-  bottom: 42px;
+  bottom: 40px;
   z-index: 1;
   width: 100%;
   max-width: var(--deep-whale-sidebar-width, 280px);
-  height: 160px;
+  height: 110px;
   overflow: hidden;
   pointer-events: none;
   mask-image: linear-gradient(to bottom, transparent 0, #000 20%, #000 100%);
@@ -302,8 +314,8 @@ body[data-dsh-deep-whale] [data-skin-chrome='sidebar-habitat'] .dw-status-whale 
   position: absolute;
   left: 50%;
   bottom: -8px;
-  width: min(190px, 72%);
-  max-height: 135px;
+  width: min(150px, 62%);
+  max-height: 95px;
   object-fit: contain;
   object-position: center bottom;
   opacity: .88;
@@ -333,7 +345,7 @@ body[data-dsh-deep-whale] .dw-theme-status {
   left: 50%;
   right: auto;
   top: auto;
-  bottom: 112px;
+  bottom: 76px;
   width: min(184px, calc(100% - 32px));
   box-sizing: border-box;
   transform: translateX(-50%);
@@ -370,9 +382,9 @@ body[data-dsh-deep-whale] .dw-theme-status small {
 body[data-dsh-deep-whale] [data-deep-whale-footer] {
   position: relative;
   z-index: 13;
-  flex: 0 0 210px;
-  min-height: 210px;
-  padding-top: 164px;
+  flex: 0 0 150px;
+  min-height: 150px;
+  padding-top: 104px;
   background: linear-gradient(to top, rgba(255,255,255,.46), rgba(237,248,255,.18) 62%, transparent);
 }
 

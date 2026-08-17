@@ -25,6 +25,7 @@
   "files": ["lib", "assets", "preview", "scripts", "src", "tests", "cordis.patch.yml", "skin.json", "README.md", "LICENSE", "NOTICE"],
   "scripts": {
     "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs",
     "test": "node --test tests/bundle.test.mjs",
     "check": "pnpm build && pnpm test"
   },

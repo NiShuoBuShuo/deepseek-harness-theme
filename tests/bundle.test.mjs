@@ -22,6 +22,11 @@ test('bundle contains scoped CSS, embedded artwork and disposer', async () => {
   assert.doesNotMatch(bundle, /right-border-habitat/)
   assert.match(bundle, /dw-sidebar-corner-frame/)
   assert.match(bundle, /contain: strict/)
+  // Collapsed rail (<=120px) must keep the native whale toggle inside the 56px
+  // edge: no 43px logo gutter and no decorative brand whale, or the toggle
+  // button is clipped past the rail and the icon stops expanding the sidebar.
+  assert.match(bundle, /\[data-deep-whale-sidebar-size='rail'\] \[data-deep-whale-logo\][\s\S]*?padding-left: 0/)
+  assert.match(bundle, /\[data-deep-whale-sidebar-size='rail'\] \[data-skin-chrome='brand-whale'\][\s\S]*?display: none/)
   assert.doesNotMatch(bundle, /dw-active-companion/)
   assert.doesNotMatch(bundle, /@local\/dsh-client-ui-skin-deep-whale/)
   assert.doesNotMatch(bundle, /https?:\/\//)
